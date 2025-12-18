@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>幸福不受騙：防詐共創行動</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script> 
+    
+    <style>
+        :root {
+            /* 現代色票 (Modern Palette) - 調整為沉穩/警示風格 */
+            --primary: #475569;         /* Slate 600 - 主色 (沉穩深藍灰) */
+            --primary-hover: #334155;   /* Slate 700 */
+            --primary-light: #f1f5f9;   /* Slate 100 - 輕微背景色 */
+            
+            --success: #10b981;         /* Emerald 500 */
+            --danger: #ef4444;          /* Red 500 - 警戒色 */
+            --warning: #f59e0b;         /* Amber 500 - 警示色 */
+            
+            --bg-body: #f8fafc;         /* Slate 50 - 背景 */
+            --bg-card: #ffffff;
+            
+            --text-main: #0f172a;       /* Slate 900 */
+            --text-secondary: #64748b;  /* Slate 500 */
+            --text-placeholder: #94a3b8;
+            
+            --border-radius: 20px;
+            --input-radius: 12px;
+            
+            /* 柔和陰影 (Soft Shadows) */
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-image: radial-gradient(circle at top right, #e2e8f0 0%, transparent 40%),
+                              radial-gradient(circle at bottom left, #e2e8f0 0%, transparent 40%);
+            background-attachment: fixed;
+        }
+
+        /* Glassmorphism Header */
+        header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo-box {
+            /* 調整為警戒色系，例如 Amber */
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--warning), #f9b640) !important;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 10px rgba(245, 158, 11, 0.4) !important;
+        }
+
+        h1 {
+            font-size: 1.25rem;
+            color: var(--text-main);
+            font-weight: 700;
+            letter-spacing: -0.025em;
+        }
+
+        /* Main Layout */
+        main {
+            flex: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        /* Modern Cards */
+        .card {
+            background: var(--bg-card);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255,255,255,0.6);
+            height: 100%;
+            min-height: 500px; 
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-header {
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .card-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+        
+        .card-icon {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* Modern Inputs */
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.6rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-left: 4px;
+        }
+        
+        /* 語音錄製指示文字 */
+        h5 {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+            margin-left: 4px;
+        }
+
+
+        textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid transparent;
+            background-color: #f1f5f9;
+            border-radius: var(--input-radius);
+            font-size: 1rem;
+            font-family: inherit;
+            resize: none;
+            transition: var(--transition);
+            min-height: 120px; /* 略微降低高度以容納更多輸入區塊 */
+            color: var(--text-main);
+        }
+
+        textarea:focus {
+            outline: none;
+            background-color: #fff;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px var(--primary-light);
+        }
+
+        textarea::placeholder {
+            color: var(--text-placeholder);
+        }
+
+        /* File Upload */
+        .file-upload-box {
+            display: block;
+            position: relative;
+            background-color: #f1f5f9;
+            border: 2px dashed #cbd5e1;
+            border-radius: var(--input-radius);
+            padding: 1rem;
+            text-align: center;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .file-upload-box:hover {
+            border-color: var(--primary);
+            background-color: #f8fafc;
+        }
+
+        input[type="file"] {
+            width: 100%;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        input[type="file"]::file-selector-button {
+            border: none;
+            background: var(--primary);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            margin-right: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        input[type="file"]::file-selector-button:hover {
+            background: var(--primary-hover);
+        }
+
+        /* Buttons */
+        .btn-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 0; /* 讓錄音組件更緊湊 */
+        }
+
+        button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 0.85rem 1.5rem;
+            border: none;
+            border-radius: var(--input-radius);
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Primary Button (Send) */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+            color: white;
+            width: 100%;
+            margin-top: 1.5rem;
+            box-shadow: 0 4px 12px rgba(71, 85, 105, 0.3);
+            font-size: 1.05rem;
+            padding: 1rem;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(71, 85, 105, 0.3);
+        }
+        
+        /* 錄音相關按鈕樣式重新引入 */
+        .btn-record {
+            background-color: white;
+            border: 1px solid #e2e8f0;
+            color: var(--text-main);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-record:hover:not(:disabled) {
+            border-color: var(--primary);
+            color: var(--primary);
+            background-color: #f8fafc;
+        }
+
+        .btn-record:disabled {
+            background-color: #f1f5f9;
+            color: #cbd5e1;
+            cursor: not-allowed;
+            border-color: transparent;
+            box-shadow: none;
+        }
+
+        .btn-stop {
+            background-color: #fef2f2;
+            color: var(--danger);
+            border: 1px solid #fee2e2;
+        }
+
+        .btn-stop:hover:not(:disabled) {
+            background-color: #fee2e2;
+            border-color: #fecaca;
+            transform: translateY(-1px);
+        }
+        
+        .btn-stop:disabled {
+            background-color: #f1f5f9;
+            color: #cbd5e1;
+            cursor: not-allowed;
+            border-color: transparent;
+            background-image: none;
+        }
+        
+        /* Recording Status */
+        .recording-wrapper {
+            height: 24px;
+            margin-top: 0.5rem; 
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .recording-status {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            background-color: #fef2f2;
+            color: var(--danger);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .recording-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--danger);
+            border-radius: 50%;
+            box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+            animation: pulse-red 1.5s infinite;
+        }
+
+        @keyframes pulse-red {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+
+        /* 結果區 - 顯示 Markdown */
+        .result-container {
+            flex: 1;
+            background-color: #f8fafc;
+            border-radius: 16px;
+            padding: 0;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .result-scroll-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+            line-height: 1.8;
+        }
+
+        /* Markdown 樣式覆寫 */
+        .result-content {
+            padding-bottom: 2rem;
+        }
+        .result-content h2, .result-content h3 {
+            color: var(--primary-hover);
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.3rem;
+            border-bottom: 2px solid var(--primary-light);
+            font-weight: 700;
+        }
+        .result-content p {
+            margin-bottom: 1rem;
+            color: var(--text-main);
+        }
+        .result-content ul, .result-content ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .result-content li {
+            margin-bottom: 0.5rem;
+        }
+        .result-content blockquote {
+            background-color: #fef3c7; /* Amber 100 */
+            border-left: 4px solid var(--warning);
+            padding: 1rem;
+            border-radius: 8px;
+            color: var(--text-main);
+            font-style: italic;
+            margin: 1rem 0;
+        }
+        .result-content strong {
+            color: var(--danger); /* 強調警示 */
+        }
+        .result-content code {
+            background-color: var(--primary-light);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Inter', monospace;
+            font-size: 0.95em;
+        }
+
+        /* 預留狀態與 Loading 樣式 (保持不變) */
+        .result-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: var(--text-placeholder);
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .result-placeholder .icon-wrapper {
+            width: 80px;
+            height: 80px;
+            background-color: var(--primary-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .result-placeholder i {
+            font-size: 2.5rem;
+            color: #cbd5e1;
+        }
+        .loading-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: var(--primary);
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--primary-light);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            main {
+                grid-template-columns: 1fr;
+                max-width: 800px;
+            }
+            .card {
+                min-height: auto;
+            }
+            .result-container {
+                min-height: 400px;
+            }
+        }
+        @media (max-width: 640px) {
+            main {
+                padding: 1rem;
+                gap: 1.5rem;
+            }
+            header {
+                padding: 1rem;
+            }
+            .card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <div class="logo-box">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <h1>幸福不受騙：防詐共創行動</h1>
+        </div>
+    </header>
+
+    <main>
+        <section class="card card-input">
+            <div class="card-header">
+                <i class="fa-solid fa-file-pen card-icon"></i>
+                <span class="card-title">輸入與查核內容</span>
+            </div>
+
+            <div class="input-group">
+                <label for="textInput">1. 文字/訊息內容</label>
+                <textarea id="textInput" placeholder="請在此輸入可疑的簡訊、Line 訊息、電子郵件或其他文字內容..."></textarea>
+            </div>
+
+            <div class="input-group">
+                <label>2. 上傳音檔</label>
+                <label class="file-upload-box">
+                    <input type="file" id="audioUpload" accept="audio/*">
+                </label>
+            </div>
+
+            <div class="input-group" style="margin-bottom: 0;">
+                <label>3. 語音即時錄製</label>
+                <h5>(操作順序: ① 按開始錄音 ② 按停止)</h5>
+                <div class="btn-group">
+                    <button onclick="startRecording()" class="btn-record" id="btnRec">
+                        <i class="fa-solid fa-microphone"></i> 開始錄音
+                    </button>
+                    <button onclick="stopRecording()" class="btn-stop" id="btnStop" disabled>
+                        <i class="fa-solid fa-square"></i> 停止
+                    </button>
+                </div>
+            </div>
+            
+            <div class="recording-wrapper">
+                <div class="recording-status" id="recordingStatus">
+                    <div class="recording-dot"></div>
+                    <span>正在錄音...</span>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>4. 上傳圖片/螢幕截圖</label>
+                <label class="file-upload-box">
+                    <input type="file" id="imageUpload" accept="image/*">
+                </label>
+            </div>
+            
+            <button onclick="submit()" class="btn-primary">
+                <i class="fa-solid fa-magnifying-glass"></i> 立即查核
+            </button>
+            <p style="font-size:0.85rem; color:var(--text-secondary); text-align:center; margin-top:1rem;">*請至少輸入一項內容進行查核。</p>
+        </section>
+
+        <section class="card">
+            <div class="card-header">
+                <i class="fa-solid fa-clipboard-check card-icon"></i>
+                <span class="card-title">分析與查核報告</span>
+            </div>
+
+            <div class="result-container">
+                <div class="result-scroll-area" id="result">
+                    <div class="result-placeholder">
+                        <div class="icon-wrapper">
+                            <i class="fa-solid fa-check-shield"></i>
+                        </div>
+                        <h4 style="color:var(--text-main); margin-bottom:8px; font-weight:600;">等待查核</h4>
+                        <p>請在左側輸入內容並點擊「立即查核」<br>系統將為您分析潛在的詐騙風險</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        let recorder, audioBlob;
+        let isRecording = false;
+
+        // 模擬後端回傳的 Markdown 內容
+        // 實際應用中，後端會根據輸入 (text, transcribed_audio, image_ocr) 產生對應的報告
+        const MOCK_MARKDOWN = (inputType, recognizedText = "") => {
+            let title, content;
+            
+            if (inputType === 'text') {
+                title = "文字訊息詐騙風險評估";
+                content = recognizedText ? recognizedText : "您輸入的文字內容正在分析中...";
+            } else if (inputType === 'audio') {
+                title = "語音詐騙風險評估 (語音內容已成功辨識)";
+                content = recognizedText ? `辨識結果：\`${recognizedText}\`` : "語音辨識成功，但語意分析尚未完成。";
+            } else if (inputType === 'image') {
+                title = "圖片內容詐騙風險評估";
+                content = "圖片/截圖已上傳，正在進行 OCR 與風險分析...";
+            } else {
+                title = "綜合詐騙風險報告";
+                content = "多種輸入內容正在綜合分析中...";
+            }
+
+            return `
+# 🚨 ${title} 🚨
+
+**狀態：** 發現 **嚴重** 詐騙風險
+
+---
+
+## 🔍 內容分析摘要
+> ${content}
+
+這則內容利用了「**急迫性**」和「**金錢利益**」來誘騙使用者點擊連結，是典型的釣魚詐騙手法。
+
+## 🛡️ 判斷依據
+* **關鍵詞句:** 訊息中包含「**欠費將於今日停用**」、「**立即登入**」、「**優惠**」等高度警示詞彙。
+* **手法模式:** 這是常見的 **電信/銀行釣魚詐騙**，目標是竊取您的帳號密碼或信用卡資訊。
+* **外部連結:** 連結的網址通常與官方網站不符，請**切勿點擊**！
+
+## 🚀 您的行動 (防詐三步驟)
+1.  **勿點擊:** 絕對不要點擊訊息中的連結或下載附件。
+2.  **勿回覆:** 不回傳任何個人資訊，並立即封鎖該號碼。
+3.  **通報:** 將訊息截圖並通報給 **165 反詐騙諮詢專線** 或您信任的資安單位。
+`;
+        };
+
+        // --- 語音錄製邏輯 (從原始代碼中還原) ---
+        async function startRecording() {
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                alert("⚠️ 您的瀏覽器不支援錄音功能，或未允許權限。");
+                return;
+            }
+
+            // 清除之前的錄音 Blob
+            audioBlob = null; 
+
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                recorder = new MediaRecorder(stream);
+                const chunks = [];
+                recorder.ondataavailable = e => chunks.push(e.data);
+                recorder.onstop = () => {
+                    audioBlob = new Blob(chunks, { type: 'audio/webm' });
+                    stream.getTracks().forEach(track => track.stop());
+                };
+                recorder.start();
+                isRecording = true;
+                
+                // UI 更新
+                document.getElementById('recordingStatus').style.display = 'flex';
+                document.getElementById('btnRec').disabled = true;
+                document.getElementById('btnStop').disabled = false;
+                
+            } catch (err) {
+                console.error("錄音失敗：", err);
+                alert("⚠️ 無法啟動麥克風，請檢查權限設定。");
+            }
+        }
+
+        function stopRecording() {
+            if (recorder && isRecording) {
+                recorder.stop();
+                isRecording = false;
+                
+                // UI 更新
+                document.getElementById('recordingStatus').style.display = 'none';
+                document.getElementById('btnRec').disabled = false;
+                document.getElementById('btnStop').disabled = true;
+                alert("錄音已停止並儲存。請點擊 '立即查核' 送出。"); 
+            }
+        }
+        
+        // 新增的 Markdown 渲染函式
+        function renderMarkdown(markdownText) {
+            const resultDiv = document.getElementById("result");
+            // 使用 marked.js 將 Markdown 轉換為 HTML
+            // 由於您要顯示 Markdown，我們假設您已經包含了 marked.min.js
+            const htmlContent = marked.parse(markdownText); 
+
+            resultDiv.innerHTML = `
+                <div class="result-content">
+                    ${htmlContent}
+                </div>
+            `;
+            // 讓結果區捲動到頂部
+            resultDiv.scrollTo(0, 0);
+        }
+
+        // --- 提交邏輯 (整合四種輸入和 API 呼叫) ---
+      async function submit() {
+            const text = document.getElementById("textInput").value.trim();
+            const audioInput = document.getElementById("audioUpload");
+            const imageInput = document.getElementById("imageUpload");
+            const resultDiv = document.getElementById("result");
+
+            // 1. 檢查是否有任何有效輸入
+            const hasAudioFile = audioInput.files.length > 0;
+            const hasRecordedAudio = !!audioBlob; // 檢查錄音 Blob 是否存在
+            const hasImage = imageInput.files.length > 0;
+            const hasText = text.length > 0;
+
+            if (!hasText && !hasAudioFile && !hasRecordedAudio && !hasImage) {
+                // 顯示缺少內容的提示 (使用您原有的 placeholder 樣式)
+                resultDiv.innerHTML = `
+                    <div class="result-placeholder">
+                        <div class="icon-wrapper" style="background-color:#fef2f2; color:var(--danger);">
+                            <i class="fa-solid fa-triangle-exclamation" style="color:var(--danger);"></i>
+                        </div>
+                        <h4 style="color:var(--text-main); margin-bottom:8px;">缺少內容</h4>
+                        <p>請至少提供一項內容進行查核。</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // 顯示 Loading 狀態
+            resultDiv.innerHTML = `
+                <div class="loading-container">
+                    <div class="spinner"></div>
+                    <p style="font-weight:500; color:var(--text-secondary)">正在與 Agent 系統溝通，請稍候...</p>
+                </div>
+            `;
+
+            // 2. 建立 FormData 對象
+            const formData = new FormData();
+            let isAudioMode = false;
+
+            // A. 處理文字輸入 (Text, 或已知的 STT 結果)
+            if (hasText) {
+                // 任何文字都透過 'text' 欄位傳遞
+                formData.append("text", text);
+            }
+
+            // B. 處理音檔上傳 (Audio File)  
+            //C. 處理即時錄音 (Recorded Audio Blob)
+           if (hasAudioFile || hasRecordedAudio){ 
+               isAudioMode = true;
+               if (hasAudioFile) {
+                    // 將上傳的音檔作為 'media_file' 傳遞給後端
+                    formData.append("files", audioInput.files[0], audioInput.files[0].name);
+                } 
+
+                //
+                else if (hasRecordedAudio) {
+                    // 將錄音 Blob 包裝成 File 對象，作為 'media_file' 傳遞
+                    //formData.append("file", audioBlob, "recorded_audio.webm");
+                    formData.append("files", new File([audioBlob], "recorded.webm"));
+                }
+               let transcribeResult;
+               let fullText = "";
+
+                // 先進行語音轉文字
+                try {
+                    const response = await fetch("http://140.123.105.233:8080/transcribe/", {
+                        method: "POST",
+                        headers: { "accept": "application/json" },
+                        body: formData
+                    });
+                    transcribeResult = await response.json();
+                    fullText = transcribeResult.result[0].transcription;
+                } catch (err) {
+                    console.error("語音辨識錯誤：", err);
+                    resultDiv.innerHTML = `
+                        <div class="result-placeholder" style="color:var(--danger);">
+                            <i class="fa-solid fa-triangle-exclamation fa-2x"></i>
+                            <p style="margin-top:10px;">語音辨識失敗：${err.message || "無法連線"}</p>
+                        </div>
+                    `;
+                    return; // 中斷後續執行
+                }
+               formData.append("text", fullText);
+          }
+
+            // D. 處理圖片上傳 (Image File)
+            else if (hasImage) {
+                // 將圖片作為 'media_file' 傳遞
+                formData.append("file", imageInput.files[0], imageInput.files[0].name);
+            }
+
+            // 3. 呼叫 API
+            // ⚠️ 請替換為您的 Port 9001 服務器地址
+            const API_ENDPOINT = "http://140.123.105.233:9001/check_scam_report"; 
+
+            try {
+                const response = await fetch(API_ENDPOINT, {
+                    method: "POST",
+                    // ❗ 注意: 當使用 FormData 傳輸檔案時，不要手動設置 'Content-Type' header，
+                    // 瀏覽器會自動設置正確的 'multipart/form-data' 和邊界。
+                    body: formData,
+                });
+
+                // 檢查 HTTP 狀態碼
+                if (!response.ok) {
+                    let errorDetail = `伺服器返回狀態碼: ${response.status}`;
+                    try {
+                        const errorJson = await response.json();
+                        errorDetail += `<br>錯誤詳情: ${errorJson.detail || JSON.stringify(errorJson)}`;
+                    } catch (e) {
+                        // 如果回傳的不是 JSON，可能是伺服器錯誤頁面
+                        errorDetail += `<br>錯誤訊息: 無法解析伺服器回覆。`;
+                    }
+
+                    resultDiv.innerHTML = `
+                        <div class="result-placeholder" style="color:var(--danger);">
+                            <i class="fa-solid fa-server fa-2x"></i>
+                            <p style="margin-top:10px;">後端服務器錯誤</p>
+                            <p style="font-size:0.9rem; color:var(--text-secondary);">${errorDetail}</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                const data = await response.json();
+
+                // 4. 渲染 Markdown 結果
+                if (data.report) {
+                    // 使用 marked.js 將 Markdown 報告渲染成 HTML
+                    const htmlContent = marked.parse(data.report); 
+
+                    // 將結果內容填入 result-scroll-area
+                    resultDiv.innerHTML = `<div class="result-content">${htmlContent}</div>`;
+                    resultDiv.scrollTo(0, 0);
+
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="result-placeholder">
+                            <div class="icon-wrapper" style="background-color:#fef3c7; color:var(--warning);">
+                                <i class="fa-solid fa-triangle-exclamation" style="color:var(--warning);"></i>
+                            </div>
+                            <h4 style="color:var(--text-main); margin-bottom:8px;">報告生成失敗</h4>
+                            <p>Agent 系統未返回有效的查核報告。</p>
+                        </div>
+                    `;
+                }
+
+            } catch (error) {
+                // 處理網路錯誤 (例如 CORS 錯誤、服務器未啟動)
+                console.error("Fetch API Error:", error);
+                resultDiv.innerHTML = `
+                    <div class="result-placeholder" style="color:var(--danger);">
+                        <i class="fa-solid fa-plug-circle-xmark fa-2x"></i>
+                        <p style="margin-top:10px;">網路連線失敗</p>
+                        <p style="font-size:0.9rem; color:var(--text-secondary);">無法連線到後端服務器 (${API_ENDPOINT})，請檢查服務是否已啟動。</p>
+                    </div>
+                `;
+            } finally {
+                // 清理錄音狀態，避免重複提交同一個錄音
+                audioBlob = null;
+                // 清理檔案輸入框，確保下次提交的是新的內容
+                audioInput.value = '';
+                imageInput.value = '';
+            }
+        }
+        
+        // 頁面載入時清除檔案輸入
+        document.getElementById('audioUpload').value = '';
+        document.getElementById('imageUpload').value = '';
+        document.getElementById('textInput').value = '';
+
+    </script>
+</body>
+</html>
